@@ -36,9 +36,9 @@ if(!empty($_POST)) {
 
 if ($handle = opendir('.')) {
   while (false !== ($entry = readdir($handle))) {
-        if (substr($entry, -4, 4) == '.txt' ) {
-          $sarasas .= '<li>'.$entry. '</li>';
-        }
+    if (substr($entry, -4, 4) == '.txt' ) {
+      $sarasas .= '<li>'.$entry. '</li>';
+    }
     
   }
   closedir($handle);
