@@ -8,14 +8,7 @@
 
 $from_file = $file = $sarasas =  '';
 
-$text_area = '<form action="" method = "post">
-<textarea type="text" name="message" style="width:600px; height:300px;" >'.$from_file.'</textarea>
-<br>
-<input type="submit" name="button" value="Įrašyti">
-<input style="width:100px" type="text" name="file_name" value="'.$file.'" hidden>
 
-<br><br><br>
-</form>';
 
 if(!empty($_POST)) {
 
@@ -44,12 +37,27 @@ if(!empty($_POST)) {
     file_put_contents($newFile, $text);
   }
 
+  $text_area = '<form action="" method = "post">
+  <textarea type="text" name="message" style="width:400px; height:200px;" >'.$from_file.'</textarea>
+  <br>
+  <input type="submit" name="button" value="Įrašyti">
+  <input style="width:100px" type="text" name="file_name" value="'.$file.'" hidden>
+  
+  <br><br><br>
+  </form>';
   echo $text_area;
+
 }elseif( isset($_GET['failas'])){ //Jei POSTO NERA TADA GAL GETAS YRA
 
   if(substr($_GET['failas'], -4, 4) == '.txt'){
     $file = $_GET['failas'];
     $from_file = file_get_contents($file);
+    $text_area = '<form action="" method = "post">
+    <textarea type="text" name="message" style="width:400px; height:200px;" >'.$from_file.'</textarea><br>
+    <input type="submit" name="button" value="Įrašyti">
+    <input style="width:100px" type="text" name="file_name" value="'.$file.'" hidden>
+    <br><br><br>
+    </form>';
     echo $text_area;
 
   }elseif(substr($_GET['failas'], -4, 4) == '.jpg'){
@@ -62,10 +70,10 @@ if(!empty($_POST)) {
 
 if ($handle = opendir('.')) {
   while (false !== ($entry = readdir($handle))) {
-        if (substr($entry, -4, 4) == '.txt' ) {
-          $sarasas .= '<li> <a href="?failas='.$entry.'">'.$entry.'</a></li>';
-        }
-    
+    if (substr($entry, -4, 4) == '.txt' ) {
+      $sarasas .= '<li> <a href="?failas='.$entry.'">'.$entry.'</a></li>';
+    }
+
   }
   closedir($handle);
 }
