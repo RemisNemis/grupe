@@ -57,7 +57,7 @@ elseif( isset($_GET['failas'])){
     }
   //Jei JPG
     elseif(substr($_GET['failas'], -4, 4) == '.jpg'){
-    echo '<img style="width:300px" src="/folder/'.$_GET['failas'].'">';
+    echo '<img style="width:300px" src="$dir_p'.$_GET['failas'].'">';
     }
 }
 //Jei nėra nei GET nei POST
@@ -99,7 +99,7 @@ if (is_dir($dir)) {
 
 // RANDA JPG
 $dir_p = __DIR__.'/folder';
-// echo $dir_p;
+echo $dir_p;
 
 if (is_dir($dir_p)) {
   if ($handle_p = opendir($dir_p)) {
