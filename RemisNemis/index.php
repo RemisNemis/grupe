@@ -41,17 +41,29 @@ if(!empty($_POST)) {
 
 }
 
-if ($handle = opendir('.')) {
-  while (false !== ($entry = readdir($handle))) {
-        if (substr($entry, -4, 4) == '.txt' ) {
-          $sarasas .= '<li> <a href="?failas='.$entry.'">'.$entry.'</a></li>';
+// if ($handle = opendir('.')) {
+//   while (false !== ($entry = readdir($handle))) {
+//         if (substr($entry, -4, 4) == '.txt' ) {
+//           $sarasas .= '<li> <a href="?failas='.$entry.'">'.$entry.'</a></li>';
+//         }
+    
+//   }
+//   closedir($handle);
+// }
+
+
+
+if ($handle_p = opendir('/paveiksliukai/')) {
+  while (false !== ($entry_p = readdir($handle_p))) {
+        if (substr($entry_p, -4, 4) == '.txt' ) {
+          //$sarasas .= '<li> <a href="?failas='.$entry.'">'.$entry.'</a></li>';
         }
     
   }
-  closedir($handle);
+  closedir($handle_p);
 }
 
-
+echo '<br/>antras: '.$handle_p = __DIR__;
 
 
 ?>
