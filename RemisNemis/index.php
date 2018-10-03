@@ -20,8 +20,9 @@ if(!empty($_POST)) {
     }
     file_put_contents($file, $current);
 
-  }elseif(isset($_POST['nuskaityti'])){ //Jei ne pradinis įrašymas tai reikia esamam redaguoti
+  }elseif(isset($_POST['nuskaityti']) ){ //Jei ne pradinis įrašymas tai reikia esamam redaguoti
     //Ar githubas dirba, kaip gDrive?
+    
     $file = $_POST['file_name'].'.txt';
     $from_file = file_get_contents($file);
 
@@ -32,17 +33,25 @@ if(!empty($_POST)) {
     file_put_contents($newFile, $text);
   }
 
+}elseif( isset($_GET['failas'])){ //Jei POSTO NERA TADA GAL GETAS YRA
+  //Ar githubas dirba, kaip gDrive?
+  
+  $file = $_GET['failas'];
+  $from_file = file_get_contents($file);
+
 }
 
 if ($handle = opendir('.')) {
   while (false !== ($entry = readdir($handle))) {
         if (substr($entry, -4, 4) == '.txt' ) {
-          $sarasas .= '<li>'.$entry. '</li>';
+          $sarasas .= '<li> <a href="?failas='.$entry.'">'.$entry.'</a></li>';
         }
     
   }
   closedir($handle);
 }
+
+
 
 
 ?>
