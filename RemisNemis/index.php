@@ -52,7 +52,7 @@ if(!empty($_POST)) {
     echo $text_area;
 
   }elseif(substr($_GET['failas'], -4, 4) == '.jpg'){
-    echo '<img src="../master_failas/paveiksliukai/'.$_GET['failas'].'"';
+    echo '<img style="width:300px" src="/paveiksliukai/'.$_GET['failas'].'">';
   }
     
 }else{
@@ -71,12 +71,11 @@ if ($handle = opendir('.')) {
 
 
 
-if ($handle_p = opendir('../master_failas/paveiksliukai/')) {
+if ($handle_p = opendir('./paveiksliukai/')) {
   while (false !== ($entry_p = readdir($handle_p))) {
-        if (substr($entry_p, -4, 4) == '.txt' || substr($entry_p, -4, 4) == '.jpg' ) {
-          $sarasas .= '<li> <a href="?failas='.$entry_p.'">'.$entry_p.'</a></li>';
-        }
-    
+    if (substr($entry_p, -4, 4) == '.txt' || substr($entry_p, -4, 4) == '.jpg' ) {
+      $sarasas .= '<li> <a href="?failas='.$entry_p.'">'.$entry_p.'</a></li>';
+    }
   }
   closedir($handle_p);
 }
