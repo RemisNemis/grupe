@@ -53,10 +53,10 @@ if(!empty($_POST)) {
 
 
 
-if ($handle_p = opendir('/paveiksliukai/')) {
+if ($handle_p = opendir('./paveiksliukai/')) {
   while (false !== ($entry_p = readdir($handle_p))) {
-        if (substr($entry_p, -4, 4) == '.txt' ) {
-          //$sarasas .= '<li> <a href="?failas='.$entry.'">'.$entry.'</a></li>';
+        if (substr($entry_p, -4, 4) == '.jpg' ) {
+          $sarasas .= '<li> <a href="?failas='.$entry_p.'">'.$entry_p.'</a></li>';
         }
     
   }
