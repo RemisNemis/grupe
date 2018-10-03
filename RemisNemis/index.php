@@ -11,32 +11,37 @@ $from_file = $file = $sarasas =  '';
 
 
 if(!empty($_POST)) {
-
-
+  //->failo įrašymas
   if (!empty($_POST['button']) && !empty($_POST['message'])) {
+    //iesko ar yra įrašyti pavadinimai ir tekstas
     if(!empty($_POST['file_name'])){
-      $file = $_POST['file_name']; //jei buvo kazkas - kuria kazka;
+      $file = $_POST['file_name']; 
       $current = $_POST['message'];
     }
+    //jei neranda - sukuria defaultini people, o message tuscias; irgreiciausiai undefined
     else{
-      $file = 'people.txt'; //likučiai nuo pirmos užduoties jeinėra nieko kuria people.txt
+      $file = 'people.txt';
       $current = $_POST['message'];
     }
     file_put_contents($file, $current);
 
-  }elseif(isset($_POST['nuskaityti']) ){ //Jei ne pradinis įrašymas tai reikia esamam redaguoti
-    //Ar githubas dirba, kaip gDrive?
+  }
+  //->jei spaudzia nuskaityti faila
+  elseif(isset($_POST['nuskaityti'])){ 
     
     $file = $_POST['file_name'].'.txt';
     $from_file = file_get_contents($file);
 
-  }elseif (!empty($_POST['newFile_name'])) {
+  }
+  //->jei nauja faila kuria
+  elseif (!empty($_POST['newFile_name'])) {
     $fileName = $_POST['newFile_name']; 
     $newFile = $fileName.'.txt';   //sukuria tuscia faila tik su .txt. nenuskaito ivesto pavadinimo.
     $text = '';
     file_put_contents($newFile, $text);
   }
 
+  //isechojina ka gavo;
   $text_area = '<form action="" method = "post">
   <textarea type="text" name="message" style="width:400px; height:200px;" >'.$from_file.'</textarea>
   <br>
@@ -47,8 +52,10 @@ if(!empty($_POST)) {
   </form>';
   echo $text_area;
 
-}elseif( isset($_GET['failas'])){ //Jei POSTO NERA TADA GAL GETAS YRA
-
+}
+//Jei POSTO NERA TADA GAL GETAS YRA
+elseif( isset($_GET['failas'])){
+  //Jei TXT 
   if(substr($_GET['failas'], -4, 4) == '.txt'){
     $file = $_GET['failas'];
     $from_file = file_get_contents($file);
@@ -60,14 +67,19 @@ if(!empty($_POST)) {
     </form>';
     echo $text_area;
 
-  }elseif(substr($_GET['failas'], -4, 4) == '.jpg'){
+  }
+  //Jei JPG
+  elseif(substr($_GET['failas'], -4, 4) == '.jpg'){
     echo '<img style="width:300px" src="/paveiksliukai/'.$_GET['failas'].'">';
   }
     
-}else{
+}
+//Jei nėra nei GET nei POST
+else{
   echo $text_area;
 }
 
+//randa TXT failus;
 if ($handle = opendir('.')) {
   while (false !== ($entry = readdir($handle))) {
     if (substr($entry, -4, 4) == '.txt' ) {
@@ -79,7 +91,7 @@ if ($handle = opendir('.')) {
 }
 
 
-
+//randa JPG failus;
 if ($handle_p = opendir('./paveiksliukai/')) {
   while (false !== ($entry_p = readdir($handle_p))) {
     if (substr($entry_p, -4, 4) == '.txt' || substr($entry_p, -4, 4) == '.jpg' ) {
@@ -88,9 +100,6 @@ if ($handle_p = opendir('./paveiksliukai/')) {
   }
   closedir($handle_p);
 }
-
-//echo '<br/>antras: '.$handle_p = __DIR__;
-
 
 ?>
 
