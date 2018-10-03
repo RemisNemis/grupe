@@ -53,16 +53,23 @@ if(!empty($_POST)) {
 
 
 $dir = __DIR__;
+
 if (is_dir($dir)) {
   if ($dh = opendir($dir)) {
-    while (($fileList = readdir($dh)) !==false) {
-      if (substr($fileList, -4, 4) == '.txt' ) {
+  while (($fileList = readdir($dh)) !==false) {
+      if (substr($fileList, -4, 4) == '.txt' || substr($fileList, -4, 4) == '.jpg') {
         $sarasas .= '<li><a href="?failas='.$fileList.'" >'.$fileList.'</a> </li>';
        }
     }
   } closedir($dh);
 }
 //uzduotis 5
+
+
+
+
+
+
 
 ?>
 
