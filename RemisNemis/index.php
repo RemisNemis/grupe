@@ -7,8 +7,18 @@
 
 $from_file = $file = $sarasas =  '';
 
+$text_area = '<form action="" method = "post">
+<textarea type="text" name="message" style="width:600px; height:300px;" >'.$from_file.'</textarea>
+<br>
+<input type="submit" name="button" value="Įrašyti">
+<input style="width:100px" type="text" name="file_name" value="'.$file.'" hidden>
+
+<br><br><br>
+</form>';
 
 if(!empty($_POST)) {
+
+
   if (!empty($_POST['button']) && !empty($_POST['message'])) {
     if(!empty($_POST['file_name'])){
       $file = $_POST['file_name']; //jei buvo kazkas - kuria kazka;
@@ -33,29 +43,37 @@ if(!empty($_POST)) {
     file_put_contents($newFile, $text);
   }
 
+  echo $text_area;
 }elseif( isset($_GET['failas'])){ //Jei POSTO NERA TADA GAL GETAS YRA
-  //Ar githubas dirba, kaip gDrive?
-  
-  $file = $_GET['failas'];
-  $from_file = file_get_contents($file);
 
+  if(substr($_GET['failas'], -4, 4) == '.txt'){
+    $file = $_GET['failas'];
+    $from_file = file_get_contents($file);
+    echo $text_area;
+
+  }elseif(substr($_GET['failas'], -4, 4) == '.jpg'){
+    echo '<img src="../master_failas/paveiksliukai/'.$_GET['failas'].'"';
+  }
+    
+}else{
+  echo $text_area;
 }
 
-// if ($handle = opendir('.')) {
-//   while (false !== ($entry = readdir($handle))) {
-//         if (substr($entry, -4, 4) == '.txt' ) {
-//           $sarasas .= '<li> <a href="?failas='.$entry.'">'.$entry.'</a></li>';
-//         }
+if ($handle = opendir('.')) {
+  while (false !== ($entry = readdir($handle))) {
+        if (substr($entry, -4, 4) == '.txt' ) {
+          $sarasas .= '<li> <a href="?failas='.$entry.'">'.$entry.'</a></li>';
+        }
     
-//   }
-//   closedir($handle);
-// }
+  }
+  closedir($handle);
+}
 
 
 
-if ($handle_p = opendir('./paveiksliukai/')) {
+if ($handle_p = opendir('../master_failas/paveiksliukai/')) {
   while (false !== ($entry_p = readdir($handle_p))) {
-        if (substr($entry_p, -4, 4) == '.jpg' ) {
+        if (substr($entry_p, -4, 4) == '.txt' || substr($entry_p, -4, 4) == '.jpg' ) {
           $sarasas .= '<li> <a href="?failas='.$entry_p.'">'.$entry_p.'</a></li>';
         }
     
@@ -63,20 +81,13 @@ if ($handle_p = opendir('./paveiksliukai/')) {
   closedir($handle_p);
 }
 
-echo '<br/>antras: '.$handle_p = __DIR__;
+//echo '<br/>antras: '.$handle_p = __DIR__;
 
 
 ?>
 
 
-<form action="" method = "post">
-    <textarea type="text" name="message" style="width:600px; height:300px;" ><?= $from_file ?></textarea>
-    <br>
-    <input type="submit" name="button" value="Įrašyti">
-    <input style="width:100px" type="text" name="file_name" value="<?= $file ?>" hidden>
 
-    <br><br><br>
-</form>
 <h3>Jūs galite pasirinkti iš:</h3><ul><?= $sarasas ?></ul>
 
 <form action="" method = "post">
