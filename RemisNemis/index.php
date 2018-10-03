@@ -1,5 +1,6 @@
 <?php
 
+//likusi bėda - uzkrauti textarea į echo;
 
 // echo '<pre>';
 // print_r($_POST);
