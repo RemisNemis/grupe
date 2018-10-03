@@ -72,9 +72,3 @@ if ($handle = opendir('.')) {
 
 <?php
 
-// echo '<pre>';
-// print_r($handle);
-// echo $handle;
-// echo '<br/><br/>';
-// print_r($entry);
-// echo '</pre> <br/>';
