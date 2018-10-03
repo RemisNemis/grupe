@@ -57,7 +57,7 @@ elseif( isset($_GET['failas'])){
     }
   //Jei JPG
     elseif(substr($_GET['failas'], -4, 4) == '.jpg'){
-    echo '<img style="width:300px" src="$dir_p'.$_GET['failas'].'">';
+    echo '<img style="width:300px" src="/folder/'.$_GET['failas'].'">';
     }
 }
 //Jei nėra nei GET nei POST
@@ -155,7 +155,7 @@ if (!empty($_POST['newFolder_name'])) {
 </form>
 <form action="" method = "post">
 <input style="width:100px" type="text" name="newFolder_name" value="">
-    <br><br>
+    <br>
     <input type="submit" name="newFolder" value="Kurti tuscia folderi">
     <br><br><br>
 </form>
