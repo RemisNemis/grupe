@@ -160,6 +160,15 @@ if ($handle_p = opendir('./paveiksliukai/')) {
           <input type="submit" name="newFile" value="Naujas .txt failas be galūnės">
           <br/> <?=$pranesimas1?>
       </form>
+      <form action="" method="post" enctype="multipart/form-data">
+        Pasirinkite paveiksliuką:
+        <input type="file" name="fileToUpload" id="fileToUpload" pattern="">
+        <input type="submit" value="Upload" name="submit">
+      </form>
+
+
+
+
     </td>
     <td >
     <?= $text_area?> <?= $paveiksliukas?> 
@@ -170,4 +179,6 @@ if ($handle_p = opendir('./paveiksliukai/')) {
 
 echo '<pre>';
 print_r($_POST);
+echo '<br/><br/>';
+print_r($_FILES);
 echo '</pre> <br/>';
