@@ -1,0 +1,36 @@
+
+
+
+table {
+       border: 01px solid black; /* storis */
+       margin-left: 5%; /*nuo kaires lango*/
+    }
+
+th, td {
+
+       width: 400px;
+}
+
+img {
+
+       width: 300px
+}
+
+li {
+       height: 20px;
+
+}
+
+a {
+       color: darkblue;
+
+}
+
+#parinktas_li {
+
+       color: red;
+}
+
+h3 {
+       color: lightskyblue;
+}

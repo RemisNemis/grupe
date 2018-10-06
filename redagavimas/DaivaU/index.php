@@ -57,7 +57,7 @@ elseif( isset($_GET['failas'])){
     }
   //Jei JPG
     elseif(substr($_GET['failas'], -4, 4) == '.jpg'){
-    echo '<img style="width:300px" src="/folder/'.$_GET['failas'].'">';
+    echo '<img style="width:300px" src="/paveiksliukai/'.$_GET['failas'].'">';
     }
 }
 //Jei nėra nei GET nei POST
