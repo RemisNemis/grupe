@@ -9,49 +9,76 @@
 // print_r($_POST);
 // echo '</pre> <br/>';
 
-$from_file = $file = $sarasas = $text_area = $paveiksliukas =   '';
+$from_file = $file = $sarasas = $text_area = $paveiksliukas = $pranesimas =  '';
 
+print_r($_POST);
 
-
+//Jei galioja betkuri iš trijų formų;
 if(!empty($_POST)) {
-  //->failo įrašymas
+
+  //->failo įrašymo forma
   if (!empty($_POST['button']) && !empty($_POST['message'])) {
     //iesko ar yra įrašyti pavadinimai ir tekstas
     if(!empty($_POST['file_name'])){
       $file = $_POST['file_name']; 
       $current = $_POST['message'];
     }
-    //jei neranda - sukuria defaultini people, o message tuscias; irgreiciausiai undefined
-    else{
-      $file = 'people.txt';
-      $current = $_POST['message'];
-    }
     file_put_contents($file, $current);
 
+    //Ir užkrauną ką išsaugojo
+    $from_file = file_get_contents(__DIR__ . './tekstas/'.$file);  
+    //isechojina ka gavo;
+    $text_area = '<h3>'.$file.'</h3><form action="" method = "post">
+    <textarea type="text" name="message" style="width:300px; height:200px;" >'.$from_file.'</textarea><br>
+    <input type="submit" name="button" value="Įrašyti">
+    <input  type="text" name="file_name" value="'.$file.'" hidden>
+    <br><br><br></form>';
   }
-  //->jei spaudzia nuskaityti faila
-  elseif(isset($_POST['nuskaityti'])){ 
+ 
+  //Nuskaitymo forma
+  switch(!empty($_POST['nuskaityti']) ){
+
+    //YRA FAILO PAV IR EGZISTUOJA
+    case (!empty($_POST['file_name']) && (file_exists(__DIR__ . './tekstas/'.$_POST['file_name'].'.txt') || file_exists('./paveiksliukai/'.$_POST['file_name'].'.jpg'))):
+      $file = $_POST['file_name'];
+      //jeigu rado txt
+      if(file_exists(__DIR__ . './tekstas/'.$_POST['file_name'].'.txt')){
+        $from_file = file_get_contents(__DIR__ . './tekstas/'.$file.'.txt');     //HELPAS//$json = file_get_contents(__DIR__ . '/../validate/edit.json');
+        //isechojina ka gavo;
+
+        $text_area = '<h3>'.$file.'</h3><form action="" method = "post">
+        <textarea type="text" name="message" style="width:300px; height:200px;" >'.$from_file.'</textarea><br>
+        <input type="submit" name="button" value="Įrašyti">
+        <input  type="text" name="file_name" value="'.$file.'" hidden>
+        <br><br><br></form>';
+
+      //Jeigu rado JPG
+      }elseif(file_exists('./paveiksliukai/'.$_POST['file_name'].'.jpg')){
+        $paveiksliukas = '<h3>'.$_POST['file_name'].'.jpg'.'</h3><img  src="./paveiksliukai/'.$_POST['file_name'].'.jpg'.'">';
+      }
+      break;
     
-    $file = $_POST['file_name'].'.txt';
-    $from_file = file_get_contents(__DIR__ . './tekstas/'.$file);     //HELPAS//$json = file_get_contents(__DIR__ . '/../validate/edit.json');
+    //TUŠČIAS PAVADINIMAS
+    case empty($_POST['file_name']):
+      $pranesimas =  '<span id="pranesimas"> Įveskite failo pavadinimą! </span>';
+      break;
+    
+    //NEEGZISTUOJA
+    case (!file_exists($_POST['file_name'].'.txt') || !file_exists($_POST['file_name'].'.jpg') ):
+    $pranesimas =  '<span id="pranesimas"> Tokio failo neradome. <br/> Rinkitės iš pateikiamo sąrašo ir veskite be failo galūnės! </span>';
+    break;
+  
   }
-  //->jei nauja faila kuria
-  elseif (!empty($_POST['newFile_name'])) {
-    $fileName = $_POST['newFile_name']; 
+ 
+  //Naujo failo kūrimo forma
+ if (!empty($_POST['newFileName'])) {
+    $fileName = $_POST['newFileName']; 
     $newFile = $fileName.'.txt';   //sukuria tuscia faila tik su .txt. nenuskaito ivesto pavadinimo.
     $text = '';
     file_put_contents($newFile, $text);
   }
 
-  //isechojina ka gavo;
-  $text_area = '<h3>'.$file.'</h3><form action="" method = "post">
-  <textarea type="text" name="message" style="width:300px; height:200px;" >'.$from_file.'</textarea>
-  <br>
-  <input type="submit" name="button" value="Įrašyti">
-  <input  type="text" name="file_name" value="'.$file.'" hidden>
-  
-  <br><br><br>
-  </form>';
+
 
 }
 //Jei POSTO NERA TADA GAL GETAS YRA
@@ -61,7 +88,7 @@ elseif( isset($_GET['failas'])){
     $file = $_GET['failas'];
     $from_file = file_get_contents(__DIR__ . './tekstas/'.$file);
     $text_area = '<h3>'.$file.'</h3><form action="" method = "post">
-    <textarea type="text" name="message" style="width:400px; height:200px;" >'.$from_file.'</textarea><br>
+    <textarea type="text" name="message" style="width:300px; height:200px;" >'.$from_file.'</textarea><br>
     <input type="submit" name="button" value="Įrašyti">
     <input  type="text" name="file_name" value="'.$file.'" hidden>
     <br><br><br>
@@ -71,6 +98,8 @@ elseif( isset($_GET['failas'])){
   //Jei JPG
   elseif(substr($_GET['failas'], -4, 4) == '.jpg'){
     $paveiksliukas = '<h3>'.$_GET['failas'].'</h3><img  src="./paveiksliukai/'.$_GET['failas'].'">';
+  }else{
+    $text_area = '';
   }
     
 }
@@ -120,13 +149,15 @@ if ($handle_p = opendir('./paveiksliukai/')) {
       <h3>Jūs galite pasirinkti iš:</h3><ul><?= $sarasas ?></ul>
 
       <form action="" method = "post">
-          <input style="width:100px" type="text" name="file_name" value="sad">
+          <input style="width:100px" type="text" name="file_name" value="">
           <br>
           <input type="submit" name="nuskaityti" value="Nuskaityti">
-          <br><br><br>
+         <br><?=$pranesimas?>
+          <br><br>
+
       </form>
       <form action="" method = "post">
-          <input style="width:100px" type="text" name="newFile_name" value="">
+          <input style="width:100px" type="text" name="newFileName" value="">
           <br><br>
           <input type="submit" name="newFile" value="Naujas failas be galūnės">
       </form>
