@@ -18,8 +18,18 @@ img {
 
 li {
        height: 20px;
-
 }
+li:hover a{
+       color: orange;
+}
+/*
+li:nth-of-type(odd){
+       background-color: lightblue;
+}
+li:nth-of-type(even){
+       background-color: lightgreen;
+}
+*/
 
 a {
        color: darkblue;
