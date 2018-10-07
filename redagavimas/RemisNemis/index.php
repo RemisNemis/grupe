@@ -4,7 +4,7 @@
 
 //Tušti stringai;
 $from_file = $file = $sarasas = $text_area = $paveiksliukas = $pranesimas = $pranesimas1 
-= $pranesimas2 =  '';
+= $pranesimas2 = $katalogas1 = $katalogas0 = '';
 
 
 //Jei galioja betkuri iš trijų formų;
@@ -182,6 +182,8 @@ if ($handle_p = opendir('./paveiksliukai/')) {
 
  // echo ;
 
+  
+
 
 ?>
 
@@ -226,11 +228,67 @@ if ($handle_p = opendir('./paveiksliukai/')) {
 
 </table>
 <?php
+echo '<pre>';
 
-echo '<pre> POST:<br/>';
+
+
+
+
+$main_folder = scandir(__DIR__, 0);
+  foreach ($main_folder as $key => $pav) {
+    switch (1) {
+      case ($pav == '..'):
+      case ($pav == '.'):
+      case (substr($pav, -3,3) == 'php'):
+      case (substr($pav, -3,3) == 'css'):
+      case (substr($pav, -4,4) == 'html'):
+        break;
+      
+      case (stripos($pav, '.') > 0):
+        $katalogas0 .=  $pav.'            - failas<br/>';
+        break;
+      case ( !is_dir($pav)):
+        $katalogas0 .= '<b>'.$pav.'            - NEATPAŽINTAS OBJEKTAS</b><br/>';
+        break;
+      case (stripos($pav, '.') == 0):
+        $katalogas1 .= '<br/><b>'.$pav.'          - katalogas<br/></b>';
+        $sub_folder = scandir(__DIR__.'/'.$pav, 1);
+
+        foreach ($sub_folder as $sub_key => $sub_pav) {
+          switch (2) {
+            case ($sub_pav == '..'):
+            case ($sub_pav == '.'):
+              break;
+            case (stripos($sub_pav, '.') > 0):
+              $katalogas1 .=  '   '.$sub_pav.'            - kataloge failas <br/>';
+              break;
+            case ( !is_dir($sub_pav)):
+              $katalogas1 .=  '   <b>'.$sub_pav.'            - NEATPAŽINTAS OBJEKTAS</b><br/>';
+              break;
+            case (stripos($sub_pav, '.') == 0):
+             $katalogas1 .=  '<br/><b>'.$sub_pav.'<b>          - kataloge katalogas <br/></b>';
+              $sub_sub_folder = scandir(__DIR__.'/'.$pav.'/'.$sub_pav, 1);
+              break;
+          }
+        }
+
+        break;
+     }
+  }
+
+  echo $katalogas1;
+
+
+  /*
+echo '<br/><br/> POST:<br/>';
 print_r($_POST);
 echo '<br/><br/>GET:<br/>';
 print_r($_GET);
 echo '<br/><br/>FILES:<br/>';
 print_r($_FILES);
+echo '<br/><br/>scandir():<br/>';
+print_r(scandir(__DIR__, 1));
 echo '</pre> <br/>';
+
+
+*/
