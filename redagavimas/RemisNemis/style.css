@@ -1,13 +1,13 @@
 
 table {
-       /*border: 01px solid black; *//* storis */
-       margin-left: 5%; /*nuo kaires lango*/
-    }
+    border: 01px solid black; /* storis */
+    margin-left: 5%; /*nuo kaires lango*/
+}
 
 th, td {
-
-       width: 300px;
-       align-content: center;
+    border: 01px solid black; /* storis */
+    width: 300px;
+    
 }
 
 img {
@@ -54,12 +54,13 @@ h3 {
 
 #pavojus {
        color: red;
+       text-align: right;
 }
 
 input[type="text"]{
-       width: 170px;
+       width: 180px;
 }
 input[type="submit"]{
-       width: 170px;
+       width: 180px;
 }
 
