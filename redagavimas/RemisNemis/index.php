@@ -2,8 +2,9 @@
 
 <?php
 
-
-$from_file = $file = $sarasas = $text_area = $paveiksliukas = $pranesimas = $pranesimas1 =  '';
+//Tušti stringai;
+$from_file = $file = $sarasas = $text_area = $paveiksliukas = $pranesimas = $pranesimas1 
+= $pranesimas2 =  '';
 
 
 //Jei galioja betkuri iš trijų formų;
@@ -76,10 +77,45 @@ if(!empty($_POST)) {
     $pranesimas1 =  '<span id="pranesimas"> Failo pavadinimas negali būti tuščias. </span>';
   }
 
+  //Failo įkėlimo forma
+  if ( isset($_POST['ikeliamas_failas'])){
+    switch (1){
+      //PAVADINIMAS
+      case empty($_FILES['fileToUpload']['name']):
+        $pranesimas2 = '<span id="pranesimas"> Prašome pasirinkti failą iš kompiuterio <br/>'.$_FILES['fileToUpload']['name'].'</span>';
+        break;
+      //DYDIS
+      case ($_FILES['fileToUpload']['size'] > 1000000):
+        $pranesimas2 = '<span id="pranesimas"> Failas turi užimti ne daugiau nei 1 MB dydį </span>';
+        break;
+      //FAILO TIPAS
+      case (substr($_FILES['fileToUpload']['type'], -4 , 4) !== 'jpeg'):
+        $pranesimas2 = '<span id="pranesimas"> Kolkas priimame tik JPEG tipo failus. </span>';
+        break;
+      //SERVO KLAIDOS
+      case ($_FILES['fileToUpload']['error'] !== 0):
+        $pranesimas2 = '<span id="pranesimas"> Serverio klaida, bandykite iš naujo. </span>';
+        break;
+      //TOKS PAT FAILAS
+      case (file_exists(__DIR__ . './paveiksliukai/'.$_FILES['fileToUpload']['name'])  ):
+        $pranesimas2 = '<span id="pranesimas"> Tokio pavadinimo ('.$_FILES['fileToUpload']['name'].') paveiksliukas jau yra. Pasirinkite kitą.  </span>';
+        break;
+      //ĮKĖLIMAS
+      case (!empty($_FILES['fileToUpload']['name'])):
+        //Failo įkėlimo tolimesnis kodas;
+        $ikelimui_direktorija = __DIR__ . './paveiksliukai/'.$_FILES['fileToUpload']['name'];
+        move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $ikelimui_direktorija);
+        
+        $pranesimas2 = '<span style="color: green; text-size: 20px"> Failas priimtas. </span>';
+        break;
+
+    }
+  }
 
 
 
-//Jei POSTO NERA TADA GAL GETAS YRA
+
+//Jei GET' YRA
 if( isset($_GET['failas'])){
   //Jei TXT 
   if(substr($_GET['failas'], -4, 4) == '.txt'){
@@ -154,16 +190,19 @@ if ($handle_p = opendir('./paveiksliukai/')) {
           <br><br>
 
       </form>
+
       <form action="" method = "post">
           <input style="width:100px" type="text" name="new_name" value="">
-          <br><br>
+          <br>
           <input type="submit" name="newFile" value="Naujas .txt failas be galūnės">
           <br/> <?=$pranesimas1?>
       </form>
+      <br/><br/>
       <form action="" method="post" enctype="multipart/form-data">
-        Pasirinkite paveiksliuką:
-        <input type="file" name="fileToUpload" id="fileToUpload" pattern="">
-        <input type="submit" value="Upload" name="submit">
+        Pasirinkite JPEG paveiksliuką:
+        <input type="file" name="fileToUpload"  pattern="">
+        <input type="submit" name="ikeliamas_failas" value="Įkelti" >
+        <br/> <?=$pranesimas2?>
       </form>
 
 
