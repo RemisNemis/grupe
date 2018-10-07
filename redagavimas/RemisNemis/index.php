@@ -44,7 +44,7 @@ if(!empty($_POST)) {
         <input type="submit" name="button" value="Įrašyti">
         <input  type="text" name="file_name" value="'.$file.'" hidden>
         <br><br><br>
-        </form>';
+        </form>  ';
       //Jeigu rado JPG
       }elseif(file_exists('./paveiksliukai/'.$_POST['file_name'].'.jpg')){
         $paveiksliukas = '<h3>'.$_POST['file_name'].'.jpg'.'</h3><img  src="./paveiksliukai/'.$_POST['file_name'].'.jpg'.'">';
@@ -125,17 +125,25 @@ if( isset($_GET['failas'])){
     <textarea type="text" name="message" style="width:300px; height:200px;" >'.$from_file.'</textarea><br>
     <input type="submit" name="button" value="Įrašyti">
     <input  type="text" name="file_name" value="'.$file.'" hidden>
-    <br><br><br>
+    <br><br><a id="pavojus" style="text-color:red;" href="?trinti=./tekstas/'.$file.'">Ištrinti</a><br><br>
     </form>';
 
   }
   //Jei JPG
   elseif(substr($_GET['failas'], -4, 4) == '.jpg'){
-    $paveiksliukas = '<h3>'.$_GET['failas'].'</h3><img  src="./paveiksliukai/'.$_GET['failas'].'">';
+    $paveiksliukas = '<h3>'.$_GET['failas'].'</h3><img  src="./paveiksliukai/'.$_GET['failas'].'">
+    <br><br><a id="pavojus" style="text-color:red;" href="?trinti=./paveiksliukai/'.$_GET['failas'].'">Ištrinti</a><br><br>';
   }else{
     $text_area = '';
   }
     
+}
+
+if( isset($_GET['trinti'])){
+
+  unlink($_GET['trinti']);
+  header("Location: http://www.briedis.test");
+
 }
 //Jei nėra nei GET nei POST
 
@@ -148,7 +156,7 @@ if ($handle = opendir('./tekstas/')) {
       if (isset($_GET['failas']) && $entry == $_GET['failas']  ){
         $sarasas .= '<li> <a id="parinktas_li" href="?failas='.$entry.'">'.$entry.'</a></li>';
       }else{
-        $sarasas .= '<li> <a href="?failas='.$entry.'">'.$entry.'</a></li>';
+        $sarasas .= '<li> <a href="?failas='.$entry.'"0>'.$entry.'</a></li>';
       }
     }
   }
@@ -180,44 +188,49 @@ if ($handle_p = opendir('./paveiksliukai/')) {
 <table >
   <tr>
     <td >
-      <h3>Jūs galite pasirinkti iš:</h3><ul><?= $sarasas ?></ul>
-
+      <h3>Pasirinkite failą:</h3><ul><?= $sarasas ?></ul>
+    </td>
+    <td colspan="2" > 
+      <?= $text_area?> <?= $paveiksliukas?>     
+    </td>
+</tr>
+<tr>
+    <td>
       <form action="" method = "post">
-          <input style="width:100px" type="text" name="file_name" value="">
-          <br>
+          <input  type="text" name="file_name" value="">
+          <br><br/>
           <input type="submit" name="nuskaityti" value="Nuskaityti">
          <br><?=$pranesimas?>
-          <br><br>
-
       </form>
+      <br><br>
+      </td>
+    <td> 
 
       <form action="" method = "post">
-          <input style="width:100px" type="text" name="new_name" value="">
-          <br>
+          <input  type="text" name="new_name" value="">
+          <br><br/>
           <input type="submit" name="newFile" value="Naujas .txt failas be galūnės">
           <br/> <?=$pranesimas1?>
       </form>
       <br/><br/>
+      </td>
+    <td> 
       <form action="" method="post" enctype="multipart/form-data">
-        Pasirinkite JPEG paveiksliuką:
-        <input type="file" name="fileToUpload"  pattern="">
+        Pasirinkite JPEG paveiksliuką: <br/><br/>
+        <input type="file" name="fileToUpload"  pattern=""><br/><br/>
         <input type="submit" name="ikeliamas_failas" value="Įkelti" >
         <br/> <?=$pranesimas2?>
       </form>
-
-
-
-
-    </td>
-    <td >
-    <?= $text_area?> <?= $paveiksliukas?> 
-    </td>
+      </td>
+</tr>
 
 </table>
 <?php
 
-echo '<pre>';
+echo '<pre> POST:<br/>';
 print_r($_POST);
-echo '<br/><br/>';
+echo '<br/><br/>GET:<br/>';
+print_r($_GET);
+echo '<br/><br/>FILES:<br/>';
 print_r($_FILES);
 echo '</pre> <br/>';
