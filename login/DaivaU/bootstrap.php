@@ -4,5 +4,6 @@ $settings =
     [
         'name'      => 'user',
         'password'  => '123',
-        'uri'       => 'http://localhost/pirma-dalis/login/',
+        'uri'       => 'http://localhost/grupe/login/DaivaU/',
+        // 'uri'       => 'http://localhost/pirma-dalis/login/',
     ];
