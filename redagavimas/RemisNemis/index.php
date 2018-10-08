@@ -1,6 +1,16 @@
-<link rel="stylesheet" href="style.css">
-
 <?php
+
+require_once 'bootstrap.php';
+if(isset($_POST['logout'])) {
+  session_destroy();
+  header('Location: '.$settings['uri'].'login.php');
+  exit;
+}
+
+
+?><link rel="stylesheet" href="style2.css">
+<?php
+
 
 //Tušti stringai;
 $from_file =  $sarasas = $text_area = $paveiksliukas = $pranesimas = $pranesimas1 
@@ -247,7 +257,11 @@ $main_folder = scandir(__DIR__, 0);
 
 
 ?>
+<form method="POST">
+  <input type="submit" name="logout" value = "Atsijungti" />
+</form>
 
+<br/><br/><br/>
 <table >
   <tr>
     <td >
