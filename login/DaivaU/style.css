@@ -97,24 +97,12 @@ input[type=text]:focus, input[type=password]:focus {
 
  @media (min-width: 540px) {
   h1 {
-    font-size:  50px;
+    font-size:  40px;
   }
  }
  
- /* @media(min-width: 540px) {
-  h1 {
-    font-size:  45px;
-  }
- }
-
- @media(min-width: 960px) {
-  h1 {
-    font-size:  55px;
-  }
- }  */
-
  @media (min-width: 1140px) {
   h1 {
-    font-size: 70px;
+    font-size: 60px;
   }
  }

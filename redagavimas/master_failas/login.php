@@ -17,6 +17,7 @@ require_once 'bootstrap.php';
 // if (isset($_GET['action']) && $_GET['action'] == 'logout'){
 //     session_destroy();
 // }
+
 // paspaustas mygtukas LOGIN
 if(isset($_POST['login'])) {
     if ($_POST['username'] == $settings['name'] && $_POST['password'] == $settings['password']) {
@@ -25,24 +26,23 @@ if(isset($_POST['login'])) {
 }
 // tikriname sesijoje 
 if (isset($_SESSION['login']) && $_SESSION['login'] == 1) {
-    header('Location: '.$settings['uri'].'pagrindinis.php');
+    header('Location: '.$settings['uri'].'index.php');
     die();
 }
 
-?>
-
-<?php 
-if (isset($_POST['login']) && (!isset($_SESSION['login']) || $_SESSION['login'] != 1)) {
-    echo 'Error!';
-}
 
 ?>
 <div class="bg">
-<h1>BE THE BEST! JOIN BALTIC TALENTS!</h1>
+<h1>BŪK GERIAUSIAS!<br> PRSIJUNK PRIE BALTIJOS TALENTŲ KOMANDOS!</h1>
 <form action="" method="post" class = "container">
 <p>Name:<p> <input type="text" name="username">
-<p>Pasword:<p> <input type="password" name="password">
+<p>Password:<p> <input type="password" name="password">
 <input type="submit" name="login" value="LOGIN" class = "btn">
+    <?php 
+    if (isset($_POST['login']) && (!isset($_SESSION['login']) || $_SESSION['login'] != 1)) {
+        echo '<span style="color:red">Prisijungimas nepavyko! Neteisingas vartotojo vardas arba slaptažodis.</span>';
+    }
+    ?>
 </form>
 </div>
 </body>
