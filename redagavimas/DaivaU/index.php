@@ -99,7 +99,7 @@ if (is_dir($dir)) {
 
 // RANDA JPG
 $dir_p = __DIR__.'/folder';
-echo $dir_p;
+// echo $dir_p;
 
 if (is_dir($dir_p)) {
   if ($handle_p = opendir($dir_p)) {
@@ -133,6 +133,7 @@ if (!empty($_POST['newFolder_name'])) {
    }
 }
 
+echo $newFolder;
 ?>
 
 <h3>Jūs galite pasirinkti iš:</h3><ul><?= $sarasas ?></ul>
