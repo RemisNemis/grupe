@@ -1,6 +1,6 @@
 <?php
 
-
+/*
 // echo '<pre>';
 // print_r($_POST);
 // echo '</pre> <br/>';
@@ -134,7 +134,7 @@ if (!empty($_POST['newFolder_name'])) {
 }
 
 echo $newFolder;
-
+*/
 //Logout
 require_once 'bootstrap.php';
 if(isset($_POST['logout'])) {
@@ -145,7 +145,7 @@ if(isset($_POST['logout'])) {
 
 
 ?>
-
+<!--
 <h3>Jūs galite pasirinkti iš:</h3><ul><?= $sarasas ?></ul>
 
 <form action="" method = "post">
@@ -170,11 +170,8 @@ if(isset($_POST['logout'])) {
     <input type="submit" name="newFolder" value="Kurti tuscia folderi">
     <br><br><br>
 </form>
-
+-->
 <form method="POST">
   <input type="submit" name="logout" value = "Logout" />
 </form>
 
-
-<?php
-?>
