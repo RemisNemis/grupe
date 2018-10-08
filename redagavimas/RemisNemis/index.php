@@ -26,11 +26,11 @@ $problem2 = '<img src="./paveiksliukai/problem2.jpg">';
           </form>  ';
         break;
 
-        //Jeigu rado JPG
-        case(!empty($_POST['file_name']) && file_exists('./paveiksliukai/'.$_POST['file_name'].'.jpg')):
-          $paveiksliukas = '<h3>'.$_POST['file_name'].'.jpg'.'</h3><img  src="./paveiksliukai/'.$_POST['file_name'].'.jpg'.'">';
-          $text_area = ' ';
-          break;
+      //Jeigu rado JPG
+      case(!empty($_POST['file_name']) && file_exists('./paveiksliukai/'.$_POST['file_name'].'.jpg')):
+        $paveiksliukas = '<h3>'.$_POST['file_name'].'.jpg'.'</h3><img  src="./paveiksliukai/'.$_POST['file_name'].'.jpg'.'">';
+        $text_area = ' ';
+        break;
       
       //TUŠČIAS PAVADINIMAS
       case empty($_POST['file_name']):
@@ -121,7 +121,6 @@ $problem2 = '<img src="./paveiksliukai/problem2.jpg">';
         <br><br><a id="pavojus" style="text-color:red;" href="?trinti=./'.$_POST['select_catalogas'].'/'.$_FILES['fileToUpload']['name'].'">Ištrinti</a><br><br>';
         $text_area = ' ';
         break;
-
     }
   }
 
