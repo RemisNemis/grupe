@@ -1,18 +1,18 @@
 
 table {
-   /* border: 01px solid black; /* storis */
+    border: 01px solid black; /* storis */
     margin-left: 5%; /*nuo kaires lango*/
 }
 
 th, td {
-    /*border: 01px solid black; /* storis */
+    border: 01px solid black; /* storis */
     width: 300px;
     
 }
 
 img {
 
-       width: 300px
+       width: 600px
 }
 
 li {
