@@ -4,7 +4,7 @@
 
 //Tušti stringai;
 $from_file =  $sarasas = $text_area = $paveiksliukas = $pranesimas = $pranesimas1 
-= $pranesimas2 = $pranesimas3 = $katalogas1 = $katalogas0 = '';
+= $pranesimas2 = $pranesimas3 = $katalogas1 = $katalogas0 = $vien_katalogai = '';
 
 $problem2 = '<img src="./paveiksliukai/problem2.jpg">';
 
@@ -83,7 +83,11 @@ $problem2 = '<img src="./paveiksliukai/problem2.jpg">';
     switch (1){
       //PAVADINIMAS
       case empty($_FILES['fileToUpload']['name']):
-        $pranesimas2 = '<span id="pranesimas"> Prašome pasirinkti failą iš kompiuterio <br/>'.$_FILES['fileToUpload']['name'].'</span>';
+        $pranesimas2 = '<span id="pranesimas"> Prašome pasirinkti failą iš kompiuterio <br/></span>';
+        $text_area = $problem2;
+        break;
+      case ($_POST['select_catalogas'] == '- - -'):
+        $pranesimas2 = '<span id="pranesimas"> Prašome pasirinkti katalogą į kurį kelsite <br/></span>';
         $text_area = $problem2;
         break;
       //DYDIS
@@ -102,51 +106,89 @@ $problem2 = '<img src="./paveiksliukai/problem2.jpg">';
         $text_area = $problem2;
         break;
       //TOKS PAT FAILAS
-      case (file_exists(__DIR__ . './paveiksliukai/'.$_FILES['fileToUpload']['name'])  ):
+      case (file_exists(__DIR__ . './'.$_POST['select_catalogas'].'/'.$_FILES['fileToUpload']['name'])  ):
         $text_area = $problem2;
         $pranesimas2 = '<span id="pranesimas"> Tokio pavadinimo ('.$_FILES['fileToUpload']['name'].') paveiksliukas jau yra. Pasirinkite kitą.  </span>';
         break;
       //ĮKĖLIMAS
       case (!empty($_FILES['fileToUpload']['name'])):
         //Failo įkėlimo tolimesnis kodas;
-        $ikelimui_direktorija = __DIR__ . './paveiksliukai/'.$_FILES['fileToUpload']['name'];
+        $ikelimui_direktorija = __DIR__ . './'.$_POST['select_catalogas'].'/'.$_FILES['fileToUpload']['name'];
         move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $ikelimui_direktorija);
         
         $pranesimas2 = '<span style="color: green; text-size: 20px"> Failas priimtas. </span>';
+        $paveiksliukas = '<h3>'.$_POST['select_catalogas'].'/'.$_FILES['fileToUpload']['name'].'</h3><img  src="./'.$_POST['select_catalogas'].'/'.$_FILES['fileToUpload']['name'].'">
+        <br><br><a id="pavojus" style="text-color:red;" href="?trinti=./'.$_POST['select_catalogas'].'/'.$_FILES['fileToUpload']['name'].'">Ištrinti</a><br><br>';
         $text_area = ' ';
         break;
 
     }
   }
 
-
-//Jei GET' YRA
-if( isset($_GET['failas']) && empty($_POST)){
-  //Jei TXT 
-  if(substr($_GET['failas'], -4, 4) == '.txt'){
-    $from_file = file_get_contents(__DIR__.'./' . $_GET['failas']);
-    $text_area = '<h3>'.$_GET['failas'].'</h3><form action="" method = "post">
-    <textarea type="text" name="message" style="width:300px; height:200px;" >'.$from_file.'</textarea><br>
-    <input type="submit" name="button" value="Įrašyti">
-    <input  type="text" name="file_name" value="'.$_GET['failas'].'" hidden>
-    <br><br><a id="pavojus" style="text-color:red;" href="?trinti=./tekstas/'.$_GET['failas'].'">Ištrinti</a><br><br>
-    </form>';
+  if ( isset($_POST['newCatalog'])){
+    switch (1){
+      //PAVADINIMAS
+      case empty($_POST['new_catalog_name']):
+        $pranesimas3 =  '<span id="pranesimas"> Failo pavadinimas negali būti tuščias. </span>';
+        $text_area = $problem2;
+        break;
+      case file_exists($_POST['new_catalog_name']):
+        $pranesimas3 =  '<span id="pranesimas"> Toks katalogas jau yra sukurtas. </span>';
+        $text_area = $problem2;
+        break;
+      case !empty($_POST['new_catalog_name']):
+        mkdir(__DIR__.'./'.$_POST['new_catalog_name'], 0777);
+        $pranesimas3 = '<span style="color: green; text-size: 20px"> Katalogas sukurtas </span>';
+        break;
+    }
   }
-  //Jei JPG
-  elseif(substr($_GET['failas'], -4, 4) == '.jpg'){
-    $paveiksliukas = '<h3>'.$_GET['failas'].'</h3><img  src="./'.$_GET['failas'].'">
-    <br><br><a id="pavojus" style="text-color:red;" href="?trinti=./'.$_GET['failas'].'">Ištrinti</a><br><br>';
-    $text_area = ' ';
-  }else{
-    $text_area = '<a id="pavojus" style="text-color:red;" href="?trinti=./'.$_GET['failas'].'">Ištrinti</a>';
+
+
+//Jei GET' YRA ir yra nuoroda
+if( isset($_GET) && empty($_POST)){
+  switch (1) {
+    //Jei TXT atvaizduoja
+    case (isset($_GET['failas']) && substr($_GET['failas'], -4, 4) == '.txt'):
+      $from_file = file_get_contents(__DIR__.'./' . $_GET['failas']);
+      $text_area = '<h3>'.$_GET['failas'].'</h3><form action="" method = "post">
+      <textarea type="text" name="message" style="width:300px; height:200px;" >'.$from_file.'</textarea><br>
+      <input type="submit" name="button" value="Įrašyti">
+      <input  type="text" name="file_name" value="'.$_GET['failas'].'" hidden>
+      <br><br><a id="pavojus" style="text-color:red;" href="?trinti=./tekstas/'.$_GET['failas'].'">Ištrinti</a><br><br>
+      </form>';
+      break;
+    //Jei JPG atvaizduoja
+    case (isset($_GET['failas']) &&  (substr($_GET['failas'], -4, 4) == '.jpg' || substr($_GET['failas'], -4, 4) == '.JPG')):
+      $paveiksliukas = '<h3>'.$_GET['failas'].'</h3><img  src="./'.$_GET['failas'].'">
+      <br><br><a id="pavojus" style="text-color:red;" href="?trinti=./'.$_GET['failas'].'">Ištrinti</a><br><br>';
+      $text_area = ' ';
+      break;
+    case (isset($_GET['katalogas'])):
+      $paveiksliukas = '<h3>Katalogas: "'.$_GET['katalogas'] .'"</h3><img  src="./paveiksliukai/folder.jpg">
+      <br><br><a id="pavojus" style="text-color:red;" href="?naikinti='.$_GET['katalogas'].'">Ištrinti</a><br><br>';
+      $text_area = ' ';
+      break;
+    //prašo trynimo
+    case (isset($_GET['trinti'])):
+      unlink($_GET['trinti']);
+      //header("Location: http://www.briedis.test");
+      break;
+    case (isset($_GET['naikinti']) !== 'tekstas' ):
+      rmdir($_GET['naikinti']);
+      //header("Location: http://www.briedis.test");
+      break;
+    case (isset($_GET['naikinti']) == 'tekstas'):
+      $text_area = '<span id="pranesimas"> Žmogau, tu nori panaikinti tekstų katalogą. Negerai taip!</span>';
+      break;
+      
+    default:
+          //Kad esant failams būtų ištrinti mygtukas;
+        //  $text_area = '<a id="pavojus" style="text-color:red;" href="?trinti=./'.$_GET['failas'].'">Ištrinti</a>';
+      break;
   }
 }
 
-if( isset($_GET['trinti'])){
 
-  unlink($_GET['trinti']);
-  header("Location: http://www.briedis.test");
-}
 //Jei nėra nei GET nei POST
 
 //Tėvinėj direktorijoj;
@@ -168,6 +210,8 @@ $main_folder = scandir(__DIR__, 0);
         break;
       case (stripos($pav, '.') == 0):
         $katalogas1 .= '<li><b> <a  href="?katalogas='.$pav.'">'.$pav.'</a></b></li><ul>';   //'<br/><b>'.$pav.'          - katalogas<br/></b>';
+        $vien_katalogai .= '<option value="'.$pav.'"> - '.$pav.'</option>';   //failų selectui
+        
         $sub_folder = scandir(__DIR__.'/'.$pav, 1);
         //JEI TAI KATALOGAS LENDA Į SUBFOLDERĮ
         foreach ($sub_folder as $sub_key => $sub_pav) {
@@ -187,6 +231,7 @@ $main_folder = scandir(__DIR__, 0);
               break;
             case (stripos($sub_pav, '.') == 0):
               $katalogas1 .=  '<li><b> <a  href="?katalogas='.$pav.'/'.$sub_pav.'">'.$sub_pav.'</a></b></li>';   //'<br/><b>'.$sub_pav.'<b>          - kataloge katalogas <br/></b>';
+              $vien_katalogai .= '<option value="'.$pav.'/'.$sub_pav.'">'.$sub_pav.'</option>';   //failų selectui
               //$sub_sub_folder = scandir(__DIR__.'/'.$pav.'/'.$sub_pav, 1);
               break;
           }
@@ -197,7 +242,7 @@ $main_folder = scandir(__DIR__, 0);
   }
 
   $sarasas = $katalogas0.$katalogas1;
-  empty($text_area) ? $text_area = '<img src="./paveiksliukai/problem.jpg">' : '';
+  empty($text_area) ? $text_area = '<img src="./paveiksliukai/problem2.jpg">' : '';
   
 
 
@@ -220,7 +265,7 @@ $main_folder = scandir(__DIR__, 0);
   <tr>
     <td>
       <form action="" method = "post">
-        Nuskaitykite tekstinį dokumentą <br/> iš katalogo "tekstas":<br/><br/>
+        Nuskaitykite tekstinį dokumentą <br/> iš katalogo "tekstas": <br/><br/>
           <input  type="text" name="file_name" value="">
           <br><br/>
           <input type="submit" name="nuskaityti" value="Nuskaityti">
@@ -239,7 +284,9 @@ $main_folder = scandir(__DIR__, 0);
     </td>
     <td> 
       <form action="" method="post" enctype="multipart/form-data">
-        Pasirinkite JPEG paveiksliuką: <br/><br/>
+        Pasirinkite katalogą ir JPEG paveiksliuką: <br/><br/>
+        <select name="select_catalogas"> <option value="- - -">- - -</option><?=$vien_katalogai?></select>
+        <br/><br/>
         <input type="file" name="fileToUpload"  pattern=""><br/><br/>
         <input type="submit" name="ikeliamas_failas" value="Įkelti" >
         <br/> <?=$pranesimas2?>
@@ -248,7 +295,7 @@ $main_folder = scandir(__DIR__, 0);
     <td> 
       <form action="" method = "post">
           Sukurkite naują katalogą: <br/><br/>
-          <input  type="text" name="new_catalog_name" value="">
+          <input  type="text" name="new_catalog_name" value="" pattern="[a-zA-Z0-9]{3,}" title="Pavadnimas bent iš trijų raidžių ir skaičių.">
           <br><br/>
           <input type="submit" name="newCatalog" value="Kurti naują katalogą">
           <br/> <?=$pranesimas3?>
