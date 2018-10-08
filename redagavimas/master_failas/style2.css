@@ -1,0 +1,66 @@
+
+table {
+   /* border: 01px solid black; /* storis */
+    margin-left: 5%; /*nuo kaires lango*/
+}
+
+th, td {
+    /*border: 01px solid black; /* storis */
+    width: 300px;
+    
+}
+
+img {
+
+       width: 300px
+}
+
+li {
+       height: 20px;
+}
+
+li:hover a{
+       color: orange;
+}
+/*
+li:nth-of-type(odd){
+       background-color: lightblue;
+}
+li:nth-of-type(even){
+       background-color: lightgreen;
+}
+*/
+
+a {
+       color: darkblue;
+       text-decoration: none;
+
+}
+
+#parinktas_li {
+
+       color: grey;
+       text-transform: uppercase;
+}
+
+h3 {
+       color: darkblue;
+}
+
+#pranesimas {
+       color: red;
+       font-size: 20px;
+}
+
+#pavojus {
+       color: red;
+       text-align: right;
+}
+
+input[type="text"]{
+       width: 180px;
+}
+input[type="submit"]{
+       width: 180px;
+}
+
