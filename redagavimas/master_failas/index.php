@@ -33,7 +33,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == 1) {
 
 ?>
 <div class="bg">
-<h1>BŪK GERIAUSIAS!<br> PRSIJUNK PRIE BALTIJOS TALENTŲ KOMANDOS!</h1>
+<h1>BŪK GERIAUSIAS!<br> PRISIJUNK PRIE BALTIJOS TALENTŲ KOMANDOS!</h1>
 <form action="" method="post" class = "container">
 <p>Name:<p> <input type="text" name="username">
 <p>Password:<p> <input type="password" name="password">

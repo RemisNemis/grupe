@@ -18,7 +18,7 @@ $from_file =  $sarasas = $text_area = $paveiksliukas = $pranesimas = $pranesimas
 
 $dydis = '500px';
 
-$problem2 = '<img src="./paveiksliukai/problem2.jpg">';
+$problem2 = '<img src="./problem2.jpg">';
 
   //POST Nuskaitymo forma
   if (isset($_POST['nuskaityti'])){
@@ -175,7 +175,7 @@ if( isset($_GET) && empty($_POST) && !empty($_GET)){
       $text_area = ' ';
       break;
     case (isset($_GET['katalogas'])):
-      $paveiksliukas = '<h3>Katalogas: "'.$_GET['katalogas'] .'"</h3><img  src="./paveiksliukai/folder.jpg">
+      $paveiksliukas = '<h3>Katalogas: "'.$_GET['katalogas'] .'"</h3><img  src="./folder.jpg">
       <br><br><a id="pavojus" style="text-color:red;" href="?naikinti='.$_GET['katalogas'].'">Ištrinti</a><br><br>';
       $text_area = ' ';
       break;
@@ -192,10 +192,10 @@ if( isset($_GET) && empty($_POST) && !empty($_GET)){
       $text_area = '<span id="pranesimas"> Žmogau, tu nori panaikinti tekstų katalogą. Negerai taip!</span>';
       break;
       
-    default:
-          //Kad esant failams būtų ištrinti mygtukas;
-        //  $text_area = '<a id="pavojus" style="text-color:red;" href="?trinti=./'.$_GET['failas'].'">Ištrinti</a>';
-      break;
+    // default:
+    //       //Kad esant failams būtų ištrinti mygtukas;
+    //     //  $text_area = '<a id="pavojus" style="text-color:red;" href="?trinti=./'.$_GET['failas'].'">Ištrinti</a>';
+    //   break;
   }
 }
 
@@ -213,6 +213,7 @@ $main_folder = scandir(__DIR__, 0);
       case (substr($pav, -4,4) == 'html'):
       case ($pav == 'auto.jpg'):
       case ($pav == 'problem2.jpg'):
+      case ($pav == 'folder.jpg'):
         break;
       
       case (stripos($pav, '.') > 0):
@@ -234,6 +235,9 @@ $main_folder = scandir(__DIR__, 0);
             case (substr($pav, -3,3) == 'php'):
             case (substr($pav, -3,3) == 'css'):
             case (substr($pav, -4,4) == 'html'):
+            case ($pav == 'auto.jpg'):
+            case ($pav == 'problem2.jpg'):
+            case ($pav == 'folder.jpg'):
               break;
 
             case (stripos($sub_pav, '.') > 0):
@@ -255,7 +259,7 @@ $main_folder = scandir(__DIR__, 0);
   }
 
   $sarasas = $katalogas0.$katalogas1;
-  empty($text_area) ? $text_area = '<img src="./paveiksliukai/problem2.jpg">' : '';
+  empty($text_area) ? $text_area = '<img src="./problem2.jpg">' : '';
   
 
 
@@ -330,7 +334,5 @@ print_r($_FILES);
 echo '<br/><br/>scandir():<br/>';
 print_r(scandir(__DIR__, 1));
 echo '</pre> <br/>';
-
-
 
 */
