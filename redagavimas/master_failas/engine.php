@@ -1,4 +1,5 @@
 <?php
+require_once 'funkcijos.php';
 
 require_once 'bootstrap.php';
 if(isset($_POST['logout'])) {
@@ -201,64 +202,67 @@ if( isset($_GET) && empty($_POST) && !empty($_GET)){
 
 
 //Jei nėra nei GET nei POST
+ $sarasas = narsykle(__DIR__);
 
-//Tėvinėj direktorijoj;
-$main_folder = scandir(__DIR__, 0);
-  foreach ($main_folder as $key => $pav) {
-    switch (1) {
-      case ($pav == '..'):
-      case ($pav == '.'):
-      case (substr($pav, -3,3) == 'php'):
-      case (substr($pav, -3,3) == 'css'):
-      case (substr($pav, -4,4) == 'html'):
-      case ($pav == 'auto.jpg'):
-      case ($pav == 'problem2.jpg'):
-      case ($pav == 'folder.jpg'):
-        break;
+// //Tėvinėj direktorijoj;
+// $main_folder = scandir(__DIR__, 0);
+//   foreach ($main_folder as $key => $pav) {
+//     switch (1) {
+//       case ($pav == '..'):
+//       case ($pav == '.'):
+//       case (substr($pav, -3,3) == 'php'):
+//       case (substr($pav, -3,3) == 'css'):
+//       case (substr($pav, -4,4) == 'html'):
+//       case ($pav == 'auto.jpg'):
+//       case ($pav == 'problem2.jpg'):
+//       case ($pav == 'folder.jpg'):
+//         break;
       
-      case (stripos($pav, '.') > 0):
-        $katalogas0 .=  '<li> <a  href="?failas='.$pav.'">'.$pav.'</a></li>';   //$pav.'            - failas<br/>';
-        break;
-      case ( !is_dir($pav)):
-        $katalogas0 .= '<li> <a style="color:red;"  href="?failas='.$pav.'">'.$pav.' |-> Nei failas nei katalogas</a></li>';   //'<b>'.$pav.'            - NEATPAŽINTAS OBJEKTAS</b><br/>';
-        break;
-      case (stripos($pav, '.') == 0):
-        $katalogas1 .= '<li><b> <a  href="?katalogas='.$pav.'">'.$pav.'</a></b></li><ul>';   //'<br/><b>'.$pav.'          - katalogas<br/></b>';
-        $vien_katalogai .= '<option value="'.$pav.'"> - '.$pav.'</option>';   //failų selectui
+//       case (stripos($pav, '.') > 0):
+//         $katalogas0 .=  '<li> <a  href="?failas='.$pav.'">'.$pav.'</a></li>';   //$pav.'            - failas<br/>';
+//         break;
+//       case ( !is_dir($pav)):
+//         $katalogas0 .= '<li> <a style="color:red;"  href="?failas='.$pav.'">'.$pav.' |-> Nei failas nei katalogas</a></li>';   //'<b>'.$pav.'            - NEATPAŽINTAS OBJEKTAS</b><br/>';
+//         break;
+//       case (stripos($pav, '.') == 0):
+//         $katalogas1 .= '<li><b> <a  href="?katalogas='.$pav.'">'.$pav.'</a></b></li><ul>';   //'<br/><b>'.$pav.'          - katalogas<br/></b>';
+//         $vien_katalogai .= '<option value="'.$pav.'"> - '.$pav.'</option>';   //failų selectui
         
-        $sub_folder = scandir(__DIR__.'/'.$pav, 1);
-        //JEI TAI KATALOGAS LENDA Į SUBFOLDERĮ
-        foreach ($sub_folder as $sub_key => $sub_pav) {
-          switch (2) {
-            case ($sub_pav == '..'):
-            case ($sub_pav == '.'):
-            case (substr($pav, -3,3) == 'php'):
-            case (substr($pav, -3,3) == 'css'):
-            case (substr($pav, -4,4) == 'html'):
-            case ($pav == 'auto.jpg'):
-            case ($pav == 'problem2.jpg'):
-            case ($pav == 'folder.jpg'):
-              break;
+//         $sub_folder = scandir(__DIR__.'/'.$pav, 1);
+//         //JEI TAI KATALOGAS LENDA Į SUBFOLDERĮ
+//         foreach ($sub_folder as $sub_key => $sub_pav) {
+//           switch (2) {
+//             case ($sub_pav == '..'):
+//             case ($sub_pav == '.'):
+//             case (substr($pav, -3,3) == 'php'):
+//             case (substr($pav, -3,3) == 'css'):
+//             case (substr($pav, -4,4) == 'html'):
+//             case ($pav == 'auto.jpg'):
+//             case ($pav == 'problem2.jpg'):
+//             case ($pav == 'folder.jpg'):
+//               break;
 
-            case (stripos($sub_pav, '.') > 0):
-              $katalogas1 .=  '<li> <a  href="?failas='.$pav.'/'.$sub_pav.'">'.$sub_pav.'</a></li>';   //'   '.$sub_pav.'            - kataloge failas <br/>';
-              break;
-            case ( !is_dir($sub_pav)):
-              $katalogas1 .=  '<li> <a  style="color:red;" href="?failas='.$pav.'/'.$sub_pav.'">'.$sub_pav.' |-> Nei failas nei katalogas</a></li>';   //'   <b>'.$sub_pav.'            - NEATPAŽINTAS OBJEKTAS</b><br/>';
-              break;
-            case (stripos($sub_pav, '.') == 0):
-              $katalogas1 .=  '<li><b> <a  href="?katalogas='.$pav.'/'.$sub_pav.'">'.$sub_pav.'</a></b></li>';   //'<br/><b>'.$sub_pav.'<b>          - kataloge katalogas <br/></b>';
-              $vien_katalogai .= '<option value="'.$pav.'/'.$sub_pav.'">'.$sub_pav.'</option>';   //failų selectui
-              //$sub_sub_folder = scandir(__DIR__.'/'.$pav.'/'.$sub_pav, 1);
-              break;
-          }
-        }
-        $katalogas1 .= '</ul>';
-        break;
-     }
-  }
+//             case (stripos($sub_pav, '.') > 0):
+//               $katalogas1 .=  '<li> <a  href="?failas='.$pav.'/'.$sub_pav.'">'.$sub_pav.'</a></li>';   //'   '.$sub_pav.'            - kataloge failas <br/>';
+//               break;
+//             case ( !is_dir($sub_pav)):
+//               $katalogas1 .=  '<li> <a  style="color:red;" href="?failas='.$pav.'/'.$sub_pav.'">'.$sub_pav.' |-> Nei failas nei katalogas</a></li>';   //'   <b>'.$sub_pav.'            - NEATPAŽINTAS OBJEKTAS</b><br/>';
+//               break;
+//             case (stripos($sub_pav, '.') == 0):
+//               $katalogas1 .=  '<li><b> <a  href="?katalogas='.$pav.'/'.$sub_pav.'">'.$sub_pav.'</a></b></li>';   //'<br/><b>'.$sub_pav.'<b>          - kataloge katalogas <br/></b>';
+//               $vien_katalogai .= '<option value="'.$pav.'/'.$sub_pav.'">'.$sub_pav.'</option>';   //failų selectui
+//               //$sub_sub_folder = scandir(__DIR__.'/'.$pav.'/'.$sub_pav, 1);
+//               break;
+//           }
+//         }
+//         $katalogas1 .= '</ul>';
+//         break;
+//      }
+//   }
 
-  $sarasas = $katalogas0.$katalogas1;
+  //$sarasas = $katalogas0.$katalogas1;
+
+
   empty($text_area) ? $text_area = '<img src="./problem2.jpg">' : '';
   
 
@@ -323,16 +327,15 @@ $main_folder = scandir(__DIR__, 0);
 </tr>
 
 </table>
-<?php /*
+<?php 
 echo '<pre> <ul>';
-echo '<br/><br/> POST:<br/>';
+/*echo '<br/><br/> POST:<br/>';
 print_r($_POST);
 echo '<br/><br/>GET:<br/>';
 print_r($_GET);
 echo '<br/><br/>FILES:<br/>';
 print_r($_FILES);
-echo '<br/><br/>scandir():<br/>';
+*/echo '<br/><br/>scandir():<br/>';
 print_r(scandir(__DIR__, 1));
 echo '</pre> <br/>';
 
-*/
