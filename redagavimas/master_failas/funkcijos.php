@@ -25,13 +25,13 @@ function narsykle($direktorija){
            $katalogas1 .= '<li><b> <a  href="?katalogas='.$pav.'">'.$pav.'</a></b></li><ul>';   //'<br/><b>'.$pav.'          - katalogas<br/></b>';
              $vien_katalogai .= '<option value="'.$pav.'"> - '.$pav.'</option>';   //failų selectui
 
-              narsykle($direktorija.$pav);
+              narsykle($direktorija.'/'.$pav);
               
          }
        }
 
        $sarasas = $katalogas0.$katalogas1;
-       
+
        return($sarasas);
 }
 
