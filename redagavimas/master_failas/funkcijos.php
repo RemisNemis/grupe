@@ -2,6 +2,8 @@
 
 function narsykle($direktorija){
 
+       $katalogas0 = $katalogas1 = $vien_katalogai= '';
+
        $main_folder = scandir($direktorija, 0); //(variable,ASC0/DESC1) 
        foreach ($main_folder as $key => $pav) {
          switch (1) {
