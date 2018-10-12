@@ -201,8 +201,7 @@ if( isset($_GET) && empty($_POST) && !empty($_GET)){
 }
 
 
-//Jei nėra nei GET nei POST
- $sarasas = narsykle2(__DIR__);
+ $sarasas = browseris(__DIR__);
 
 // //Tėvinėj direktorijoj;
 // $main_folder = scandir(__DIR__, 0);

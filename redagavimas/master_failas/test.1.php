@@ -1,34 +1,34 @@
 <?php
 
 echo '<pre>';
-print_r ( scandir(__DIR__));
+//print_r ( scandir(__DIR__));
 echo '<br/>';
-print_r ( scandir(__DIR__.'/'.'Daivute'));
-echo '</pre>';
+//print_r ( scandir(__DIR__.'/'.'Daivute'));
+//echo '</pre>';
 
-print_r(narsykle(scandir(__DIR__)));
+print_r(narsykle(__DIR__ ));
 
-function narsykle($struktura){
+
+function narsykle($direktorija){
       $sarasas = [];
+      $struktura = scandir($direktorija);
       foreach($struktura as $key => $value ){
-            
-            if ( is_dir(__DIR__.'/'.$value) && is_array(scandir(__DIR__.'/'.$value))){ //jei katalogas tada einam gylyn
+            if ($value == '.' || $value == '..' ) { continue; }
 
-            echo '<div style="padding-left:20px">'.$key;
-            //$sarasas[$key] .= $value;
-            //čia reiktų įmest array su katalogais;
+            if ( is_dir($direktorija.'/'.$value) && !empty(scandir($direktorija.'/'.$value  ))){ //jei katalogas tada einam gylyn
+
+            echo '<div style="padding-left:30px">';
             
-            //narsykle(scandir(__DIR__.'/'.$value));
+            echo '<b>'.$value.' </b><br/>';
+            
+            narsykle($direktorija.'/'.$value);
             
             echo '</div>';
 
             }else{ //jeigu failas
-                  echo '<div style="padding-left:20px">'.$value.'</div>';
-                  $sarasas = [];
+                  echo '<div style="padding-left:10px">'.$value.'</div>';
             }
       }
-
-      return $sarasas;
 }
 
 //print_r($sarasas);
