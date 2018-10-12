@@ -4,7 +4,8 @@ function browseris($direktorija){
 
   $failas = $vidus = $katalogas1 = $vien_katalogai= '';
 
-  $content = scandir($direktorija, 0); //(variable,ASC0/DESC1) 
+  $content = scandir($direktorija, 0);
+  
   foreach ($content as $key => $pav) {
   switch (1) {
     case ($pav == '..'):
