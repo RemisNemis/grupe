@@ -181,14 +181,14 @@ if( isset($_GET) && empty($_POST) && !empty($_GET)){
       $text_area = ' ';
       break;
     //prašo trynimo
-    case (isset($_GET['trinti']) && !empty($_GET['trinti'])):
+    /*case (isset($_GET['trinti']) && !empty($_GET['trinti'])):
       unlink($_GET['trinti']);
       //header("Location: http://www.briedis.test");
       break;
     case (isset($_GET['naikinti']) !== 'tekstas' ):
       rmdir($_GET['naikinti']);
      // header("Location: http://www.briedis.test");
-      break;
+      break;*/
     case (isset($_GET['naikinti']) == 'tekstas'):
       $text_area = '<span id="pranesimas"> Žmogau, tu nori panaikinti tekstų katalogą. Negerai taip!</span>';
       break;
@@ -202,7 +202,7 @@ if( isset($_GET) && empty($_POST) && !empty($_GET)){
 
 
 //Jei nėra nei GET nei POST
- $sarasas = narsykle(__DIR__);
+ $sarasas = narsykle2(__DIR__);
 
 // //Tėvinėj direktorijoj;
 // $main_folder = scandir(__DIR__, 0);
